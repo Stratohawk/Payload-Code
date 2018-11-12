@@ -6,8 +6,8 @@
 int RxPin;
 int TxPin;
 uint32_t GPSBaud;
-int latitude;
-int longitude;
+float latitude;
+float longitude;
 bool isInit = true;
 
 StGPS::StGPS(int Rx, int Tx, uint32_t baudRate ){
@@ -20,7 +20,7 @@ StGPS::StGPS(int Rx, int Tx, uint32_t baudRate ){
 TinyGPSPlus gps;
 SoftwareSerial ss(RxPin, TxPin);
 
-void readStream(){
+void StGPS::readStream(){
   if(isInit == true){
     ss.begin(GPSBaud);
     isInit = false;
@@ -34,11 +34,11 @@ void readStream(){
   } //reads buffer if able 
 } //persistent loop method
 
-long getLat(){
+float StGPS::getLat(){
   return latitude;
 } //returns current value
 
-long getLong(){
+float StGPS::getLong(){
   return longitude;
 } //returns current value
 

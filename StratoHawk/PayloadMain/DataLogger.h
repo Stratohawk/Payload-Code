@@ -11,8 +11,8 @@ class dLog {
     dLog( int chipSelectPin, uint32_t baudRate );
 
     //methods
-    int openNewFile();
-    int writeToFile( String data );
+    int writeToFile( float lattitude, float longitude, int altd, float angX, float angY, float angZ);
+    int getFileCount();
 
   private:
     uint32_t sdBaud;

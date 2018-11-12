@@ -12,12 +12,12 @@ class StGPS{
 
     //methods
     void readStream();
-    long getLat();
-    long getLong();
+    float getLat();
+    float getLong();
 
   private:
-    long longitude;
-    long latitude;
+    float longitude;
+    float latitude;
     int RxPin, TxPin;
     uint32_t GPSBaud;
     bool isInit;

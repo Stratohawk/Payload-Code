@@ -1,8 +1,10 @@
 #include "StratoGPS.h"
 #include "DataLogger.h"
+#include "Altimeter.h"
 
-StGPS payloadGPS(4, 3, 9600);
-dLog payloadDataLogger(10, 9600);
+StAlt mAlt(2, 3);
+StGPS mGPS(4, 3, 9600);
+dLog mDataLogger(10,9600);
 
 int currentTimeStamp, last10hzTimeStamp, last1hzTimeStamp, last1PMTimeStamp;
 
@@ -11,7 +13,8 @@ void setup() {
 
   //TODO: configure XBee Transceiver
   //TODO: start data recorder
-  //TODO: configure Sensor Package (gyro/accel/altimeter)
+  //TODO: configure Sensor Package (gyro/accel)
+  
 
 }
 
@@ -34,7 +37,6 @@ void run10hz() {
 
 void run1hz() {
   if((currentTimeStamp - last1hzTimeStamp) >= 1000){
-
     
 
     
