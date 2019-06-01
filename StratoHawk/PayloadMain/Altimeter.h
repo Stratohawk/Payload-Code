@@ -5,19 +5,18 @@
 #include "Altimeter.h"
 
 #include <Wire.h>
+#include <SparkFunMPL3115A2.h>
 
 class StAlt{
   public:
     //constructor
-    StAlt( int SDA, int SCL);
+    StAlt();
 
     //methods
     int getAltitude();
     int start();
 
   private:
-    int SDA, SCL;
-    bool altIsInit;
 
 };
 #endif

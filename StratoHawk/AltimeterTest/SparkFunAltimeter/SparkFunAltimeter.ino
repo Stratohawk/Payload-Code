@@ -1,4 +1,20 @@
 /*
+ MPL3115A2 Barometric Pressure Sensor Library Example Code
+ By: Nathan Seidle
+ SparkFun Electronics
+ Date: September 24th, 2013
+ License: This code is public domain but you buy me a beer if you use this and we meet someday (Beerware license).
+ 
+ Uses the MPL3115A2 library to display the current altitude and temperature
+ 
+ Hardware Connections (Breakoutboard to Arduino):
+ -VCC = 3.3V
+ -SDA = A4 (use inline 10k resistor if your board is 5V)
+ -SCL = A5 (use inline 10k resistor if your board is 5V)
+ -INT pins can be left unconnected for this demo
+ 
+ During testing, GPS with 9 satellites reported 5393ft, sensor reported 5360ft (delta of 33ft). Very close!
+ During testing, GPS with 8 satellites reported 1031ft, sensor reported 1021ft (delta of 10ft).
  
  Available functions:
  .begin() Gets sensor on the I2C bus.
@@ -15,30 +31,33 @@
  .enableEventFlags() Sets the fundamental event flags. Required during setup.
  
  */
-#include "Altimeter.h"
-#include "Arduino.h"
 
 #include <Wire.h>
+#include "SparkFunMPL3115A2.h"
 
+//Create an instance of the object
 MPL3115A2 myPressure;
 
-StAlt::StAlt(){
-    start();
-}
+void setup()
+{
+  Wire.begin();        // Join i2c bus
+  Serial.begin(9600);  // Start serial for output
 
-int StAlt::start (){
+  myPressure.begin(); // Get sensor online
 
   //Configure the sensor
   myPressure.setModeAltimeter(); // Measure altitude above sea level in meters
-  //myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
 
   myPressure.setOversampleRate(7); // Set Oversample to the recommended 128
   myPressure.enableEventFlags(); // Enable all three pressure and temp event flags 
-  
-  return 0;
 }
 
-int StAlt::getAltitude(){
-  return myPressure.readAltitudeFt();
-}
+void loop()
+{
 
+  float altitude = myPressure.readAltitudeFt();
+  Serial.print(" Altitude(ft):");
+  Serial.print(altitude, 2);
+
+  Serial.println();
+}

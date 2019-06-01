@@ -42,3 +42,29 @@ float StGPS::getLong(){
   return longitude;
 } //returns current value
 
+String StGPS::getTime()
+{
+  if (!gps.time.isValid())
+  {
+    return "*****************";
+  }
+  else
+  {
+    char* sz;
+    sprintf(sz, "%02d:%02d:%02d ", gps.time.hour(), gps.time.minute(), gps.time.second());
+    return sz;
+  }
+}
+
+int StGPS::getSatellites()
+{
+  if (!gps.satellites.isValid())
+  {
+    return -1;
+  }
+  else
+  {
+    return gps.satellites.value();
+  }
+
+}

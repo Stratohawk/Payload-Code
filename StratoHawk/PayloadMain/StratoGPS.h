@@ -14,6 +14,8 @@ class StGPS{
     void readStream();
     float getLat();
     float getLong();
+    String getTime();
+    int getSatellites();
 
   private:
     float longitude;

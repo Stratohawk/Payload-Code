@@ -37,8 +37,8 @@ int dLog::logAltitude( int altd){
   }
 }
 */
-int dLog::writeToFile( float lattitude, float longitude, int altd, float angX, float angY, float angZ){
-  String fileName = "DTA";
+int dLog::openFile(){
+   String fileName = "DTA";
   if( fileIsOpen ){
     return 1;
   }
@@ -48,15 +48,31 @@ int dLog::writeToFile( float lattitude, float longitude, int altd, float angX, f
     dataFile = SD.open(fileName, FILE_WRITE);
     fileIsOpen = true;
     fileCount++;
+    return 0;
   }
-  
-  if(!fileIsOpen){
+}
+
+
+
+int dLog::closeFile(){
+  if( !fileIsOpen ){
+    return 1;
+  }
+  else if( !dataFile) {
     return 2;
-  } else if(!dataFile){
-    return 3;
-  } else{
-    dataFile.println(0);//EDIT HERE
+  }else{
     dataFile.close();
+    return 0;
+  }
+}
+
+int dLog::writeToFile( String sTime, float lattitude, float longitude, int altd, float angX, float angY, float angZ){
+  if(!fileIsOpen){
+    return 1;
+  } else if(!dataFile){
+    return 2;
+  } else{
+    dataFile.println(sTime + "," + lattitude + "," + longitude + "," + altd + "," + angX + "," + angY + "," + angZ + ",");
     return 0;
   }
 }
