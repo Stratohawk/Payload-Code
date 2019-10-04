@@ -23,11 +23,11 @@
 MPL3115A2 myPressure;
 
 StAlt::StAlt(){
-    start();
+    //start();
 }
 
 int StAlt::start (){
-
+  myPressure.begin();
   //Configure the sensor
   myPressure.setModeAltimeter(); // Measure altitude above sea level in meters
   //myPressure.setModeBarometer(); // Measure pressure in Pascals from 20 to 110 kPa
@@ -41,4 +41,3 @@ int StAlt::start (){
 int StAlt::getAltitude(){
   return myPressure.readAltitudeFt();
 }
-

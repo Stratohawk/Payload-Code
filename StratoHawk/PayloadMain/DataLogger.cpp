@@ -10,13 +10,19 @@ int fileCount = 0;
 
 File dataFile;
 
-dLog::dLog( int chipSelectPin, uint32_t baudRate ){
+dLog::dLog( int chipSelectPin, uint32_t baudRate ) {
+  Serial.begin(9600);
+  Serial.println("setup");
   if (!SD.begin(chipSelectPin)) {
     Serial.println("Card failed, or not present");
   }
+  else
+  {
+    Serial.println("Card present");
+  }
 }
 /*
-int dLog::logGPS( float lattitude, float longitude){
+  int dLog::logGPS( float lattitude, float longitude){
   if(GPSLogCurIndex >= sizeof GPSLog[0]){
     return 1;
   }else{
@@ -25,9 +31,9 @@ int dLog::logGPS( float lattitude, float longitude){
     GPSLogCurIndex++;
     return 0;
   }
-}
+  }
 
-int dLog::logAltitude( int altd){
+  int dLog::logAltitude( int altd){
   if(AltLogCurIndex >= sizeof AltLog){
     return 1;
   }else{
@@ -35,16 +41,18 @@ int dLog::logAltitude( int altd){
     GPSLogCurIndex++;
     return 0;
   }
-}
+  }
 */
-int dLog::openFile(){
-   String fileName = "DTA";
-  if( fileIsOpen ){
+int dLog::openFile() {
+  
+  String fileName = "DTA";
+  if ( fileIsOpen ) {
     return 1;
   }
   else {
     fileName += String(fileCount);
     fileName += ".csv";
+    Serial.println(fileName);
     dataFile = SD.open(fileName, FILE_WRITE);
     fileIsOpen = true;
     fileCount++;
@@ -54,33 +62,31 @@ int dLog::openFile(){
 
 
 
-int dLog::closeFile(){
-  if( !fileIsOpen ){
+int dLog::closeFile() {
+  
+  if ( !fileIsOpen ) {
     return 1;
   }
-  else if( !dataFile) {
+  else if ( !dataFile) {
     return 2;
-  }else{
+  } else {
     dataFile.close();
+    fileIsOpen = false;
     return 0;
   }
 }
 
-int dLog::writeToFile( String sTime, float lattitude, float longitude, int altd, float angX, float angY, float angZ){
-  if(!fileIsOpen){
+int dLog::writeToFile( String sTime, float lattitude, float longitude, int altd, float angX, float angY, float angZ) {
+  if (!fileIsOpen) {
     return 1;
-  } else if(!dataFile){
+  } else if (!dataFile) {
     return 2;
-  } else{
-    dataFile.println(sTime + "," + lattitude + "," + longitude + "," + altd + "," + angX + "," + angY + "," + angZ + ",");
+  } else {
+    dataFile.println(sTime + "," + String(lattitude, 6) + "," + String(longitude, 6) + "," + altd + "," + angX + "," + angY + "," + angZ + ",");
     return 0;
   }
 }
 
-  int dLog::getFileCount(){
-    return fileCount;
-  }
-  
-  
-
-
+int dLog::getFileCount() {
+  return fileCount;
+}

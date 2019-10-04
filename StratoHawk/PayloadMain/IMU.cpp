@@ -34,7 +34,7 @@ float angZ = 0;
 volatile bool intFlag=false;
 
 StIMU::StIMU(){
-  initialize();
+  //initialize();
 }
 
 // This function read Nbytes bytes from I2C device at address Address. 
@@ -68,7 +68,7 @@ void StIMU::I2CwriteByte(uint8_t Address, uint8_t Register, uint8_t Data)
 void StIMU::initialize()
 {
   // Arduino initializations
-  Wire.begin();
+  //Wire.begin();
   
   // Set accelerometers low pass filter at 5Hz
   I2CwriteByte(MPU9250_ADDRESS,29,0x06);
@@ -81,22 +81,20 @@ void StIMU::initialize()
   // Configure accelerometers range
   I2CwriteByte(MPU9250_ADDRESS,28,ACC_FULL_SCALE_4_G);
   
-   pinMode(13, OUTPUT);
   Timer1.initialize(10000);         // initialize timer1, and set a 1/2 second period
-//  Timer1.attachInterrupt(callback);  // attaches callback() as a timer overflow interrupt
+  //Timer1.attachInterrupt(callback);  // attaches callback() as a timer overflow interrupt
   
 }
 
 void StIMU::callback()
 { 
   intFlag=true;
-  digitalWrite(13, digitalRead(13) ^ 1);
 }
 
 // Main loop, read and display data
 void StIMU::runLoop()
 {
-  while (!intFlag);
+  //while (!intFlag);
   intFlag=false;
 
   if(imuIsInit){
@@ -129,9 +127,9 @@ delt_t = timeCur - timePrev;
   AccGY = AccGY + (float) gy*delt_t/1000;
   AccGZ = AccGZ + (float) gz*delt_t/1000;
 
-  float angX = AccGX*90/2600;
-  float angY = AccGY*90/2600;
-  float angZ = AccGZ*90/2600;
+  angX = AccGX*90.0/2600;
+  angY = AccGY*90.0/2600;
+  angZ = AccGZ*90.0/2600;
 
  timePrev = timeCur;
 }
@@ -147,7 +145,3 @@ float StIMU::getAngY() {
 float StIMU::getAngZ() {
   return angZ;
 }
-
-
-
-
